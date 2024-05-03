@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/overview"
+        android:title="Overview"
+        android:icon="@drawable/ic_overview_foreground"/>
+    <item
+        android:id="@+id/dashboard"
+        android:title="Dashboard"
+        android:icon="@drawable/ic_dashboard_foreground" />
+    <item
+        android:id="@+id/transaction"
+        android:title="Transactions"
+        android:icon="@drawable/ic_money_foreground"/>
+
+</menu>
