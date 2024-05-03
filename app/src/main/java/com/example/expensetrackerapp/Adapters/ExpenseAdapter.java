@@ -1,4 +1,9 @@
-package com.example.expensetrackerapp;
+/**
+ * Name: ExpenseAdapter.java
+ * Last Updated: 5/3/2024
+ * Description: Adapter class for expense entries
+ */
+package com.example.expensetrackerapp.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,12 +14,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.expensetrackerapp.Models.ExpenseModel;
+import com.example.expensetrackerapp.R;
+
 import java.util.ArrayList;
 
 public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHolder>{
 
+    // Declare list for storing data and context
     ArrayList<ExpenseModel> data;
     private Context context;
+
     public ExpenseAdapter(ArrayList<ExpenseModel> holder, Context context){
         this.data = holder;
         this.context = context;
@@ -30,6 +40,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
+        // Set information dependant on position in array
         holder.DisplayId.setText(Integer.toString(data.get(position).getId()));
         holder.DisplayTitle.setText(data.get(position).getTitle());
         holder.DisplayDate.setText(data.get(position).getDate());
@@ -60,6 +71,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
 
     }
 
+    // Method for setting array as new filtered array
     public void setFilter(ArrayList<ExpenseModel> newList){
         data = new ArrayList<>();
         data.addAll(newList);

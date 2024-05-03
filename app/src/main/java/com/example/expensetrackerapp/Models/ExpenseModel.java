@@ -1,4 +1,9 @@
-package com.example.expensetrackerapp;
+/**
+ * Name: ExpenseModel.java
+ * Last Updated: 5/3/2024
+ * Description: Model class for holding information about expense entries
+ */
+package com.example.expensetrackerapp.Models;
 
 public class ExpenseModel {
     int id;

@@ -1,4 +1,9 @@
-package com.example.expensetrackerapp;
+/**
+ * Name: Overview.java
+ * Last Updated: 5/3/2024
+ * Description: Class for holding all overview functions, displays total loss and 5 most recent additions
+ */
+package com.example.expensetrackerapp.Fragments;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,11 +17,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.example.expensetrackerapp.Adapters.ExpenseAdapter;
+import com.example.expensetrackerapp.Models.ExpenseModel;
+import com.example.expensetrackerapp.ExpenseTracker.ExpenseTrackerHelper;
+import com.example.expensetrackerapp.R;
 
 import java.util.ArrayList;
 
 public class Overview extends Fragment {
+
+    // Declare variables
     ExpenseTrackerHelper helper;
     View view;
     RecyclerView recyclerView;
@@ -36,11 +46,12 @@ public class Overview extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.overviewRecycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        // Get the total expenses from the last 30 days
         helper = new ExpenseTrackerHelper(getActivity());
         ExpenseTotal.setText("$-" + helper.totalExpenses30().toString());
 
+        // Get the last five expenses cursor and store each expense in array
         Cursor cursor = helper.readFiveExpenses();
-
         ExpenseModel expenseModel;
         if(cursor.moveToFirst()) {
             expenseModel = new ExpenseModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2),
@@ -53,6 +64,7 @@ public class Overview extends Fragment {
             }
         }
 
+        // Connect adapter and recycle viewer
         ExpenseAdapter adapter = new ExpenseAdapter(expenseHolder, getActivity());
         recyclerView.setAdapter(adapter);
 

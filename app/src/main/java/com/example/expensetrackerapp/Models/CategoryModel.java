@@ -1,4 +1,10 @@
-package com.example.expensetrackerapp;
+/**
+ * Name: CategoryModel.java
+ * Last Updated: 5/3/2024
+ * Description: Class for entries from category table
+ */
+
+package com.example.expensetrackerapp.Models;
 
 public class CategoryModel {
     int cid;

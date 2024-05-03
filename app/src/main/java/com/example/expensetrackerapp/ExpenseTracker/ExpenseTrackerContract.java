@@ -1,4 +1,10 @@
-package com.example.expensetrackerapp;
+/**
+ * Name: ExpenseTrackerContract.java
+ * Last Updated: 5/3/2024
+ * Description: Contract class that sets up the structure of the database,
+ * used all around the program for ease of updating column names table names etc.
+ */
+package com.example.expensetrackerapp.ExpenseTracker;
 
 import android.provider.BaseColumns;
 

@@ -1,3 +1,8 @@
+/**
+ * Name: MainActivity.java
+ * Last Updated: 5/3/2024
+ * Description: Class for main activity of programs, hold frame layout for fragments and bottom navigation
+ */
 package com.example.expensetrackerapp;
 
 import androidx.annotation.NonNull;
@@ -9,10 +14,15 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.expensetrackerapp.Fragments.Dashboard;
+import com.example.expensetrackerapp.Fragments.Overview;
+import com.example.expensetrackerapp.Fragments.Transactions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
+
+    // Create objects for each fragment
     BottomNavigationView view;
     Dashboard dashboardFragment = new Dashboard();
     Overview overviewFragment = new Overview();
@@ -28,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         // Set view to overview activity
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, overviewFragment).commit();
 
+        // When navigation view item is selected, swap between fragments
        view.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener(){
            @Override
            public boolean onNavigationItemSelected(@NonNull MenuItem item){
@@ -50,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Add fragment method
     public void addFragment(Fragment fragment){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
