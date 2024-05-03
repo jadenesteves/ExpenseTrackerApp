@@ -5,14 +5,25 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
 
@@ -21,23 +32,24 @@ public class Transactions extends Fragment {
     View view;
     RecyclerView recyclerView;
     ArrayList<ExpenseModel> expenseHolder;
-    TextView ExpenseTotal;
+    ExpenseAdapter adapter;
+    androidx.appcompat.widget.Toolbar toolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.transactions, container, false);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         expenseHolder = new ArrayList<ExpenseModel>();
-        recyclerView = view.findViewById(R.id.recycleView);
-        ExpenseTotal = view.findViewById(R.id.totalExpenses);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        toolbar = (androidx.appcompat.widget.Toolbar) view.findViewById(R.id.toolbar2);
 
         helper = new ExpenseTrackerHelper(getActivity());
-        ExpenseTotal.setText("$-"+helper.totalExpenses30().toString());
 
         Cursor cursor = helper.readAllExpenses();
 
         ExpenseModel expenseModel;
-        if(cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             expenseModel = new ExpenseModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2),
                     cursor.getString(3), cursor.getString(4), cursor.getInt(5), cursor.getString(6));
             expenseHolder.add(expenseModel);
@@ -48,8 +60,46 @@ public class Transactions extends Fragment {
             }
         }
 
-            ExpenseAdapter adapter = new ExpenseAdapter(expenseHolder, getActivity());
-            recyclerView.setAdapter(adapter);
+        adapter = new ExpenseAdapter(expenseHolder, getActivity());
+        recyclerView.setAdapter(adapter);
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar((toolbar));
+        toolbar.setTitle("");
         return view;
+    }
+
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater){
+        inflater.inflate(R.menu.nav_search_bar, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView SearchView = (SearchView) menuItem.getActionView();
+        SearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                newText = newText.toLowerCase();
+                ArrayList<ExpenseModel> newList = new ArrayList<>();
+                for(ExpenseModel model : expenseHolder){
+                    String title = model.getTitle().toLowerCase();
+                    if(title.contains(newText)){
+                        newList.add(model);
+                    }
+                }
+
+                adapter.setFilter(newList);
+                return true;
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onViewCreated(view, savedInstanceState);
     }
 }

@@ -59,5 +59,11 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
 
 
     }
+
+    public void setFilter(ArrayList<ExpenseModel> newList){
+        data = new ArrayList<>();
+        data.addAll(newList);
+        notifyDataSetChanged();
+    }
 }
 

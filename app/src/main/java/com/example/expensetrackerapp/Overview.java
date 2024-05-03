@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -18,6 +21,7 @@ public class Overview extends Fragment {
     View view;
     RecyclerView recyclerView;
     ArrayList<ExpenseModel> expenseHolder;
+    TextView ExpenseTotal;
 
     public Overview() {
         // Required empty public constructor
@@ -28,10 +32,12 @@ public class Overview extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.overview, container, false);
         expenseHolder = new ArrayList<ExpenseModel>();
-        recyclerView = view.findViewById(R.id.overviewRecycleView);
+        ExpenseTotal = (TextView) view.findViewById(R.id.totalExpenses);
+        recyclerView = (RecyclerView) view.findViewById(R.id.overviewRecycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         helper = new ExpenseTrackerHelper(getActivity());
+        ExpenseTotal.setText("$-" + helper.totalExpenses30().toString());
 
         Cursor cursor = helper.readFiveExpenses();
 

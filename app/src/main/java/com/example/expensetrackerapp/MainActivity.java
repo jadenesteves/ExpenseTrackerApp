@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         view = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 
-        // Set view to dashboard activity
+        // Set view to overview activity
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, overviewFragment).commit();
 
        view.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener(){
